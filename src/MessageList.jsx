@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Message from './Message.jsx';
+import PropTypes from 'prop-types';
 
 class MessageList extends Component {
   render() {
@@ -15,5 +16,9 @@ class MessageList extends Component {
       </div>
     );
   }
+}
+// prop validation
+MessageList.propTypes = {
+  messages: PropTypes.array.isRequired
 }
 export default MessageList;

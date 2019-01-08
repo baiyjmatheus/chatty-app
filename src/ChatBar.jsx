@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { ECONNABORTED } from 'constants';
 
 class ChatBar extends Component {
   render() {
