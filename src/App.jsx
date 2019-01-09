@@ -2,30 +2,14 @@ import React, { Component } from 'react';
 import Navbar from './Navbar.jsx';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
-import messagesData from './messages.json';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      messages: messagesData.messages,
-      currentUser: messagesData.currentUser
+      currentUser: {name: "Matheus"},
+      messages: []
     };
-  }
-
-  sendMessage = (message) => {
-    const newMessage = {
-      // hard coded id
-      id: this.state.messages.length + 1, 
-      username: message.username,
-      content: message.content,
-      // hard coded type
-      type: 'incomingMessage'
-    };
-
-    this.setState({
-      messages: this.state.messages.concat(newMessage)
-    });
   }
 
   render() {
@@ -33,18 +17,41 @@ class App extends Component {
       <div>
         <Navbar />
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser} onEnterPress={this.sendMessage}/>
+        <ChatBar currentUser={this.state.currentUser} onEnterPress={this._addMessage} changeName={this._changeName} />
       </div>
     );
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      const newMessage = {id: 8, username: 'Michelle', content: 'LETS GET DINNER EVERYONE!', type: 'incomingMessage'};
-      const messages = this.state.messages.concat(newMessage);
-      this.setState({messages});
-    }, 3000);
+    this.socket = new WebSocket('ws://localhost:3001');
+    // When client connects to socket event
+    this.socket.onopen = () => {
+      console.log("Connected to WebSocket");
+    }
+    // Receive message from server
+    this.socket.onmessage = (payload) => {
+      const incomingMessage = JSON.parse(payload.data);
+      this.setState({
+        messages: [...this.state.messages, incomingMessage]
+      });
+    }
   }
+
+  _addMessage = (message) => {
+    const newMessage = {
+      username: message.username,
+      content: message.content
+    };
+
+    this.socket.send(JSON.stringify(newMessage));
+  }
+
+  _changeName = (evt) => {
+    this.setState({
+      currentUser: {name: evt.target.value}
+    })
+  }
+
 }
 
 export default App;

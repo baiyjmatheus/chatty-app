@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class MessageList extends Component {
   render() {
     const messagesList = this.props.messages.map((message) => {
-      return <Message key={message.id} username={message.username} content={message.content} type={message.type}/>
+      return <Message key={message.id} username={message.username} content={message.content} />
     });
 
     return (
