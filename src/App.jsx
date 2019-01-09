@@ -17,7 +17,7 @@ class App extends Component {
       <div>
         <Navbar />
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser} onEnterPress={this._addMessage} changeName={this._changeName} />
+        <ChatBar currentUser={this.state.currentUser} onSend={this._handleMessageAdd} changeName={this.handleNameChange} />
       </div>
     );
   }
@@ -37,7 +37,7 @@ class App extends Component {
     }
   }
 
-  _addMessage = (message) => {
+  _handleMessageAdd = (message) => {
     const newMessage = {
       username: message.username,
       content: message.content
@@ -46,7 +46,7 @@ class App extends Component {
     this.socket.send(JSON.stringify(newMessage));
   }
 
-  _changeName = (evt) => {
+  _handleNameChange = (evt) => {
     this.setState({
       currentUser: {name: evt.target.value}
     })
