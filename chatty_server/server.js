@@ -1,5 +1,6 @@
 const express = require('express');
-const SocketServer = require('ws').Server;
+const WebSocket = require('ws');
+const SocketServer = WebSocket.Server;
 
 const PORT = 3001;
 
@@ -19,6 +20,7 @@ wss.broadcastJSON = (data) => wss.broadcast(JSON.stringify(data));
 // Broadcast helper
 wss.broadcast = (data) => {
   wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN)
     client.send(data);
   });
 }
