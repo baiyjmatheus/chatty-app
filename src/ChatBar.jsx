@@ -14,6 +14,7 @@ class ChatBar extends Component {
     );
   }
 
+  // When enter is pressed, sends new message to server
   handleKeyPress = (evt) => {
     if (evt.key === 'Enter' && evt.target.value !== '') {
       const message = {
@@ -25,6 +26,7 @@ class ChatBar extends Component {
     }
   }
 
+  // When enter is pressed, sends new username to server
   handleNameChange = (evt) => {
     if (evt.key === 'Enter') {
       const newUsername = evt.target.value === '' ? 'Anonymous' : evt.target.value;

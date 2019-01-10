@@ -31,7 +31,7 @@ wss.on('connection', (ws) => {
   const counterObj = {type: 'counter', counter: wss.clients.size};
   wss.broadcastJSON(counterObj);
 
-  // Receive message from client
+  // Receive new message from client and sort by type
   ws.on('message', (data) => {
     const newMessage = JSON.parse(data);
     newMessage.id = uuid();
@@ -52,6 +52,7 @@ wss.on('connection', (ws) => {
 
   // Set a callback for when a client closes the socket. This usally means they closed their browser
   ws.on('close', () => {
+    // Sends new client count when user disconnects
     const counterObj = {type: 'counter', counter: wss.clients.size};
     wss.broadcastJSON(counterObj);
     console.log('Client disconnected');

@@ -44,6 +44,7 @@ class App extends Component {
     }
   }
 
+  // Sends new message to server
   _addMessage = (message) => {
     const newMessage = {
       type: "postMessage",
@@ -54,12 +55,14 @@ class App extends Component {
     this.socket.send(JSON.stringify(newMessage));
   }
 
+  // Changes currentUser state
   _changeName = (newUsername) => {
     this.setState({
       currentUser: {name: newUsername}
     });
   }
 
+  // Send notification to server when a user changes the name
   _sendNotification = (message) => {
     const newMessage = {
       type: 'postNotification',
