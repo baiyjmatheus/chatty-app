@@ -27,25 +27,28 @@ wss.broadcast = (data) => {
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
+  // Set color to ws
+  ws.color = generateRandomColor();
   // Send connected users counter to all clients
-  const counterObj = {type: 'counter', counter: wss.clients.size};
-  wss.broadcastJSON(counterObj);
-
+  const counter = { type: 'counter', counter: wss.clients.size };
+  wss.broadcastJSON(counter);
+  
   // Receive new message from client and sort by type
   ws.on('message', (data) => {
     const newMessage = JSON.parse(data);
     newMessage.id = uuid();
     switch(newMessage.type) {
       case 'postMessage':
+        newMessage.color = ws.color;
         newMessage.type = 'incomingMessage';
         console.log(`${newMessage.username}: said ${newMessage.content}`);
         break;
       case 'postNotification':
         newMessage.type = 'incomingNotification';
-        console.log(`post notification: ${newMessage.content}`);
+        console.log(newMessage.content);
         break;
       default:
-        throw new Error("Unknown event type " + newMessage.type);    
+        throw new Error('Unknown event type ' + newMessage.type);    
     }
     wss.broadcastJSON(newMessage);     
   });
@@ -58,3 +61,9 @@ wss.on('connection', (ws) => {
     console.log('Client disconnected');
   });
 });
+
+// Generates a random color
+const generateRandomColor = () => {
+  const colors = ['#20639b', '#3caea3', '#f6d55c', '#ed55eb'];
+  return colors[Math.floor(Math.random() * colors.length)];
+}
