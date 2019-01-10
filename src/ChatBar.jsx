@@ -17,7 +17,6 @@ class ChatBar extends Component {
   handleKeyPress = (evt) => {
     if (evt.key === 'Enter' && evt.target.value !== '') {
       const message = {
-        // username: this.props.currentUser.name,
         content: evt.target.value
       };
       this.props.currentUser.name === '' ? message.username = 'Anonymous' : message.username = this.props.currentUser.name
