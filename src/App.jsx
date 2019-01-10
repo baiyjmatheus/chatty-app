@@ -7,17 +7,18 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: {name: "Matheus"},
-      messages: []
+      currentUser: {name: ''},
+      messages: [],
+      counter: ''
     };
   }
 
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar counter={this.state.counter}/>
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser} onEnterPress={this._addMessage} changeName={this._changeName} />
+        <ChatBar currentUser={this.state.currentUser} onSendMessage={this._addMessage} changeName={this._changeName} onEnterNameChange={this._sendNotification} />
       </div>
     );
   }
@@ -31,14 +32,21 @@ class App extends Component {
     // Receive message from server
     this.socket.onmessage = (payload) => {
       const incomingMessage = JSON.parse(payload.data);
-      this.setState({
-        messages: [...this.state.messages, incomingMessage]
-      });
+      if (incomingMessage.type === 'counter') {
+        this.setState({
+          counter: incomingMessage.counter
+        });
+      } else {
+        this.setState({
+          messages: [...this.state.messages, incomingMessage]
+        });
+      }
     }
   }
 
   _addMessage = (message) => {
     const newMessage = {
+      type: "postMessage",
       username: message.username,
       content: message.content
     };
@@ -46,10 +54,18 @@ class App extends Component {
     this.socket.send(JSON.stringify(newMessage));
   }
 
-  _changeName = (evt) => {
+  _changeName = (newUsername) => {
     this.setState({
-      currentUser: {name: evt.target.value}
-    })
+      currentUser: {name: newUsername}
+    });
+  }
+
+  _sendNotification = (message) => {
+    const newMessage = {
+      type: 'postNotification',
+      content: message.content
+    };
+    this.socket.send(JSON.stringify(newMessage));
   }
 
 }
