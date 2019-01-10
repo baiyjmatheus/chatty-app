@@ -9,13 +9,13 @@ class ChatBar extends Component {
     return(
       <footer className="chatbar">
         <input onKeyPress={this.handleNameChange} className="chatbar-username" placeholder="Your Name (Optional)" />
-        <input onKeyPress= {this.handleKeyPress}className="chatbar-message" placeholder="Type a message and hit ENTER" />
+        <input onKeyPress= {this.handleSendMessage}className="chatbar-message" placeholder="Type a message and hit ENTER" />
       </footer>
     );
   }
 
   // When enter is pressed, sends new message to server
-  handleKeyPress = (evt) => {
+  handleSendMessage = (evt) => {
     if (evt.key === 'Enter' && evt.target.value !== '') {
       const message = {
         content: evt.target.value
