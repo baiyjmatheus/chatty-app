@@ -22,6 +22,10 @@ class ChatBar extends Component {
       };
       this.props.currentUser.name === '' ? message.username = 'Anonymous' : message.username = this.props.currentUser.name
       evt.target.value = '';
+      if (message.content.match(/(https?:\/\/.*\.(?:png|jpg))$/)) {
+        message.image = message.content.match(/(https?:\/\/.*\.(?:png|jpg))$/)[0];
+        message.content = message.content.replace(message.image, '');
+      }
       this.props.onSendMessage(message);
     }
   }

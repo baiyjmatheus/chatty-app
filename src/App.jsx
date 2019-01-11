@@ -47,11 +47,18 @@ class App extends Component {
   // Sends new message to server
   _addMessage = (message) => {
     const newMessage = {
-      type: "postMessage",
       username: message.username,
       content: message.content
     };
 
+    // (message.image) ? newMessage.type = "postImage" : newMessage.type = "postMessage";
+    if (message.image) {
+      newMessage.type = "postImage";
+      newMessage.image = message.image;
+    } else {
+      newMessage.type = "postMessage";
+    }
+    
     this.socket.send(JSON.stringify(newMessage));
   }
 

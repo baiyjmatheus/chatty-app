@@ -37,15 +37,20 @@ wss.on('connection', (ws) => {
   ws.on('message', (data) => {
     const newMessage = JSON.parse(data);
     newMessage.id = uuid();
+    newMessage.color = ws.color;
+    // add properties according to message type
     switch(newMessage.type) {
       case 'postMessage':
-        newMessage.color = ws.color;
         newMessage.type = 'incomingMessage';
         console.log(`${newMessage.username}: said ${newMessage.content}`);
         break;
       case 'postNotification':
         newMessage.type = 'incomingNotification';
         console.log(newMessage.content);
+        break;
+      case 'postImage':
+        newMessage.type = 'incomingImage';
+        console.log(`${newMessage.username}: said ${newMessage.content}`);
         break;
       default:
         throw new Error('Unknown event type ' + newMessage.type);    
