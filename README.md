@@ -1,45 +1,27 @@
-React Boilerplate
-=====================
+# Decision Maker
 
-A minimal and light dev environment for ReactJS.
+Chatty is a real-time chat that allows users to send plain text messages and images by URL.
 
-### Usage
+## Final Product
 
-Clone the boilerplate and create your own git repo.
+!["Chat"](https://github.com/baiyjmatheus/chatty-app/blob/master/docs/final.png)
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+## Server Dependencies
+  - express
+  - uuidv4
+  - ws
 
-Install the dependencies and start the server.
+## Client Dependencies
+  - prop-types
+  - react
+  - react-dom
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
 
-### Static Files
-
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
-
-### Dependencies
-
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+# Getting Started
+  - Clone this repository and change directory to chatty-app (`cd chatty-app`)
+  - Install all dependencies (using `npm install` command).
+  - Run the development web server using `node server.js` command. 
+  - Change directory to chatty-server (`cd chatty-server`)
+  - Install all dependencies (using `npm install` command).
+  - Run the development web server using `node server.js` command. 
+  - Open `localhost:3000/` in your browser.
